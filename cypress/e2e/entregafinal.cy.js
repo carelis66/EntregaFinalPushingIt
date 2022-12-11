@@ -7,6 +7,7 @@ import{Recipt} from '../support/pages/recipt'
 
 
 
+
 describe('Entrega Final', () => {
   let producto, infoTarjeta, suma;
   const usuario = "CarelisF";
@@ -75,12 +76,13 @@ before('subscription and dates',()=>{
     checkOut.escribirApellido(infoTarjeta.apellido);
     checkOut.escribirNumero(infoTarjeta.cardNumber);
     checkOut.clickPurchase();
-    recipt.espera();
-    recipt.verificarNombre(infoTarjeta.nombre,infoTarjeta.apellido);
-    recipt.verificarProducto(producto.producto1.producto);
-    recipt.verificarProducto(producto.producto2.producto);
-    recipt.verificarTarjeta(infoTarjeta.cardNumber);
-    recipt.verificarCostoTotal(suma);
+    recipt.verifyLoading().should("exist");
+    recipt.verifythankYouButton().should("have.text","Thank you");
+    recipt.verifyProducto(producto.producto1.producto);
+    recipt.verifyProducto(producto.producto2.producto);
+    recipt.verifyCardNumber().should("have.text", infoTarjeta.cardNumber);
+    recipt.verifyAmountTotal(suma);
+    
 
   })
   after( ()=>{
