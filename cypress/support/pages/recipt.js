@@ -1,32 +1,34 @@
 export class Recipt{
-
-espera(){
-    
-    cy.get('#name',{timeout:20000})
-
+    constructor(){
+        this.thankYouButton = "//button[text()='Thank you']";
+        this.cardNumber = "#creditCard";
+        this.totalPrice = "#totalPrice";
+        this.loading = "div[role='progressbar']";
+       
+    }
+verifythankYouButton(){
+    return cy.xpath(this.thankYouButton, { timeout: 10000});
+}
+verifyLoading(){
+    return cy.get(this.loading);
 }
 
-verificarNombre(nombre,apellido){
-    cy.get('#name').should('have.text',`${nombre} ${apellido} has succesfully purchased the following items`);
-   
-}
 
-verificarProducto(nombreProducto){
+verifyProducto(nombreProducto){
 
     cy.xpath(`//*[@id="${nombreProducto}"]`).should('have.text',`${nombreProducto}`);   
     
     
 }
-verificarTarjeta(numeroTarjeta){
-   
-    cy.xpath(`//*[@id="creditCard"]`).should('have.text',`${numeroTarjeta}`);
-
+verifyCardNumber(){
+    return cy.get(this.cardNumber);
 }
- verificarCostoTotal(total){
 
-    cy.xpath(`//*[@id="totalPrice"]`).should('have.text',`You have spent $${total}`);
- }
-
+verifyAmountTotal(total){
+        return cy.get(this.totalPrice).invoke("text").then(() => {
+        cy.contains(total);
+    });
+}
 
 }
 
